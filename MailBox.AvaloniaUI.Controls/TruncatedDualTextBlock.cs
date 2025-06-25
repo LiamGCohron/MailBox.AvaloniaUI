@@ -268,7 +268,7 @@ public class TruncatedDualTextBlock : Panel {
             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
             Foreground = RightForeground ?? DefaultForeground,
             FontWeight = RightFontWeight ?? DefaultFontWeight,
-            FontStyle = RightFontStyle ?? DefaultFontStyle
+            FontStyle = RightFontStyle ?? DefaultFontStyle,
         };
 
         // Add to children collection

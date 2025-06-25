@@ -2,6 +2,7 @@
 
 using Avalonia.Media;
 
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace MailBox.AvaloniaUI.Sample.ViewModels;
@@ -21,9 +22,14 @@ public class MainViewModel : ViewModelBase {
     #endregion
 
     #region Foreground
-    [Reactive] public IBrush LeftForeground { get; set; } = new SolidColorBrush(Colors.Red);
-    [Reactive] public IBrush SeparatorForeground { get; set; } = new SolidColorBrush(Colors.Blue);
-    [Reactive] public IBrush RightForeground { get; set; } = new SolidColorBrush(Colors.DarkGreen);
+    [Reactive] public Color LeftTextColor { get; set; } = Colors.Red;
+    [Reactive] public Color SeparatorTextColor { get; set; } = Colors.Blue;
+    [Reactive] public Color RightTextColor { get; set; } = Colors.DarkGreen;
+
+    [ObservableAsProperty] public IBrush LeftForeground { get; }
+    [ObservableAsProperty] public IBrush SeparatorForeground { get; }
+    [ObservableAsProperty] public IBrush RightForeground { get; }
+
     #endregion
 
     #region Font Size
@@ -77,4 +83,10 @@ public class MainViewModel : ViewModelBase {
         FontStyle.Italic,
         FontStyle.Oblique
     ];
+
+    public MainViewModel() {
+        this.WhenAnyValue(x => x.LeftTextColor, c => new SolidColorBrush(c)).ToPropertyEx(this, x => x.LeftForeground);
+        this.WhenAnyValue(x => x.SeparatorTextColor, c => new SolidColorBrush(c)).ToPropertyEx(this, x => x.SeparatorForeground);
+        this.WhenAnyValue(x => x.RightTextColor, c => new SolidColorBrush(c)).ToPropertyEx(this, x => x.RightForeground);
+    }
 }

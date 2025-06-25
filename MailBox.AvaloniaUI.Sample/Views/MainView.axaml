@@ -27,8 +27,8 @@
 		</Style>
 	</UserControl.Styles>
 
-	<Grid RowDefinitions="*,Auto" ColumnDefinitions="*,2,*" Margin="4">
-		<mb:TruncatedDualTextBlock Grid.Row="0" Grid.Column="0" Spacing="{Binding Spacing}"
+	<Grid RowDefinitions="*,Auto" ColumnDefinitions="*,4,*" Margin="4">
+		<mb:TruncatedDualTextBlock Grid.Row="0" Grid.Column="0" Spacing="{Binding Spacing}" ClipToBounds="True"
 															 LeftText="{Binding LeftText}" SeparatorText="{Binding SeparatorText}" RightText="{Binding RightText}"
 															 LeftTextTrimming="{Binding LeftTextTrimming}" RightTextTrimming="{Binding RightTextTrimming}"
 															 LeftForeground="{Binding LeftForeground}" SeparatorForeground="{Binding SeparatorForeground}" RightForeground="{Binding RightForeground}"
@@ -86,13 +86,13 @@
 					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Foreground" FontWeight="Bold" HorizontalAlignment="Center"/>
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left Foreground" VerticalAlignment="Center"/>
-					<ColorPicker Grid.Row="1" Grid.Column="1" Color="{Binding LeftForeground}"/>
+					<ColorPicker Grid.Row="1" Grid.Column="1" Color="{Binding LeftTextColor}"/>
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator Foreground" VerticalAlignment="Center"/>
-					<ColorPicker Grid.Row="2" Grid.Column="1" Color="{Binding SeparatorForeground}"/>
+					<ColorPicker Grid.Row="2" Grid.Column="1" Color="{Binding SeparatorTextColor}"/>
 
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right Foreground" VerticalAlignment="Center"/>
-					<ColorPicker Grid.Row="3" Grid.Column="1" Color="{Binding RightForeground}"/>
+					<ColorPicker Grid.Row="3" Grid.Column="1" Color="{Binding RightTextColor}"/>
 				</Grid>
 			</Border>
 
