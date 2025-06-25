@@ -7,13 +7,142 @@
 						 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MailBox.AvaloniaUI.Sample.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
 
-	<StackPanel>
-		<mb:TruncatedFileTextBlock FolderText="E:\Projects\GitHub\MailBox.AvaloniaUI" FileText="My really cool file.txt"/>
-	</StackPanel>
+	<UserControl.Styles>
+		<Style Selector="TextBox">
+			<Setter Property="Width" Value="120"/>
+		</Style>
+
+		<Style Selector="ComboBox">
+			<Setter Property="Width" Value="180"/>
+		</Style>
+
+		<Style Selector="WrapPanel Border">
+			<Setter Property="Margin" Value="2"/>
+		</Style>
+	</UserControl.Styles>
+
+	<Grid RowDefinitions="*,Auto" ColumnDefinitions="*,2,*" Margin="4">
+		<mb:TruncatedDualTextBlock Grid.Row="0" Grid.Column="0" Spacing="{Binding Spacing}"
+															 LeftText="{Binding LeftText}" SeparatorText="{Binding SeparatorText}" RightText="{Binding RightText}"
+															 LeftTextTrimming="{Binding LeftTextTrimming}" RightTextTrimming="{Binding RightTextTrimming}"
+															 LeftForeground="{Binding LeftForeground}" SeparatorForeground="{Binding SeparatorForeground}" RightForeground="{Binding RightForeground}"
+                               LeftFontSize="{Binding LeftFontSize}" SeparatorFontSize="{Binding SeparatorFontSize}" RightFontSize="{Binding RightFontSize}"
+                               LeftFontWeight="{Binding LeftFontWeight}" SeparatorFontWeight="{Binding SeparatorFontWeight}" RightFontWeight="{Binding RightFontWeight}"
+                               LeftFontStyle="{Binding LeftFontStyle}" SeparatorFontStyle="{Binding SeparatorFontStyle}" RightFontStyle="{Binding RightFontStyle}"
+															 />
+		<GridSplitter Grid.Row="0" Grid.Column="1" Background="Black" ResizeDirection="Columns"/>
+
+		<TextBlock Grid.Row="0" Grid.Column="2" Text=" Drag Me" FontSize="18" VerticalAlignment="Center"/>
+
+		<WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="4">
+			<!-- Spacing -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Spacing" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Spacing" VerticalAlignment="Center"/>
+					<Slider Grid.Row="1" Grid.Column="1" Value="{Binding Spacing}" Minimum="0" Maximum="72"/>
+				</Grid>
+			</Border>
+
+			<!-- Text -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Text" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left Text" VerticalAlignment="Center"/>
+					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LeftText}"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator Text" VerticalAlignment="Center"/>
+					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SeparatorText}"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right Text" VerticalAlignment="Center"/>
+					<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RightText}"/>
+				</Grid>
+			</Border>
+
+			<!-- Text Trimming -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="TextTrimming" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left TextTrimming" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TextTrimmings}" SelectedItem="{Binding LeftTextTrimming}"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Right TextTrimming" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding TextTrimmings}" SelectedItem="{Binding RightTextTrimming}"/>
+				</Grid>
+			</Border>
+
+			<!-- Foreground -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Foreground" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left Foreground" VerticalAlignment="Center"/>
+					<ColorPicker Grid.Row="1" Grid.Column="1" Color="{Binding LeftForeground}"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator Foreground" VerticalAlignment="Center"/>
+					<ColorPicker Grid.Row="2" Grid.Column="1" Color="{Binding SeparatorForeground}"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right Foreground" VerticalAlignment="Center"/>
+					<ColorPicker Grid.Row="3" Grid.Column="1" Color="{Binding RightForeground}"/>
+				</Grid>
+			</Border>
+
+			<!-- Font Size -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="FontSize" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left FontSize" VerticalAlignment="Center"/>
+					<NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding LeftFontSize}" Minimum="1"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator FontSize" VerticalAlignment="Center"/>
+					<NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SeparatorFontSize}" Minimum="1"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right FontSize" VerticalAlignment="Center"/>
+					<NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RightFontSize}" Minimum="1"/>
+				</Grid>
+			</Border>
+
+			<!-- Font Weight -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="FontWeight" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left FontWeight" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding FontWeights}" SelectedItem="{Binding LeftFontWeight}"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator FontWeight" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding FontWeights}" SelectedItem="{Binding SeparatorFontWeight}"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right FontWeight" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding FontWeights}" SelectedItem="{Binding RightFontWeight}"/>
+				</Grid>
+			</Border>
+
+			<!-- Font Style -->
+			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="FontStyle" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left FontStyle" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding FontStyles}" SelectedItem="{Binding LeftFontStyle}"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator FontStyle" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding FontStyles}" SelectedItem="{Binding SeparatorFontStyle}"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right FontStyle" VerticalAlignment="Center"/>
+					<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding FontStyles}" SelectedItem="{Binding RightFontStyle}"/>
+				</Grid>
+			</Border>
+		</WrapPanel>
+	</Grid>
 </UserControl>
