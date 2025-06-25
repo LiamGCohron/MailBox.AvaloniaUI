@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBox.AvaloniaUI.Sample", "MailBox.AvaloniaUI.Sample\MailBox.AvaloniaUI.Sample.csproj", "{34F75920-DBDF-336B-88C0-A19D137A420B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBox.AvaloniaUI.Sample.Desktop", "MailBox.AvaloniaUI.Sample.Desktop\MailBox.AvaloniaUI.Sample.Desktop.csproj", "{68F89CFC-051A-97BD-7719-A92203371901}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBox.AvaloniaUI.Controls", "MailBox.AvaloniaUI.Controls\MailBox.AvaloniaUI.Controls.csproj", "{6F3DD5E6-8292-40E4-A8C2-B0DAE7BFB9BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34F75920-DBDF-336B-88C0-A19D137A420B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F75920-DBDF-336B-88C0-A19D137A420B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F75920-DBDF-336B-88C0-A19D137A420B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F75920-DBDF-336B-88C0-A19D137A420B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68F89CFC-051A-97BD-7719-A92203371901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68F89CFC-051A-97BD-7719-A92203371901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68F89CFC-051A-97BD-7719-A92203371901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68F89CFC-051A-97BD-7719-A92203371901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F3DD5E6-8292-40E4-A8C2-B0DAE7BFB9BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3DD5E6-8292-40E4-A8C2-B0DAE7BFB9BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3DD5E6-8292-40E4-A8C2-B0DAE7BFB9BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3DD5E6-8292-40E4-A8C2-B0DAE7BFB9BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7BE69ED-4751-4846-A16F-F357A03962E4}
+	EndGlobalSection
+EndGlobal
