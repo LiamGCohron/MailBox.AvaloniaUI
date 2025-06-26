@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -256,7 +257,6 @@ public class TruncatedDualTextBlock : Panel {
 
         separatorTextBlock = new TextBlock {
             Text = SeparatorText,
-            TextTrimming = RightTextTrimming,
             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
             Foreground = SeparatorForeground ?? DefaultForeground,
             FontWeight = SeparatorFontWeight ?? DefaultFontWeight,
@@ -265,6 +265,7 @@ public class TruncatedDualTextBlock : Panel {
 
         rightTextBlock = new TextBlock {
             Text = RightText,
+            TextTrimming = RightTextTrimming,
             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
             Foreground = RightForeground ?? DefaultForeground,
             FontWeight = RightFontWeight ?? DefaultFontWeight,
@@ -275,19 +276,6 @@ public class TruncatedDualTextBlock : Panel {
         Children.Add(leftTextBlock);
         Children.Add(separatorTextBlock);
         Children.Add(rightTextBlock);
-
-        // Apply initial styling
-        ApplyTextBlockStyles();
-    }
-
-    private void ApplyTextBlockStyles() {
-        leftTextBlock.Foreground = LeftForeground ?? DefaultForeground;
-        separatorTextBlock.Foreground = SeparatorForeground ?? DefaultForeground;
-        rightTextBlock.Foreground = RightForeground ?? DefaultForeground;
-
-        leftTextBlock.FontWeight = LeftFontWeight ?? DefaultFontWeight;
-        separatorTextBlock.FontWeight = SeparatorFontWeight ?? DefaultFontWeight;
-        rightTextBlock.FontWeight = RightFontWeight ?? DefaultFontWeight;
     }
 
     protected override Size MeasureOverride(Size availableSize) {
@@ -295,24 +283,38 @@ public class TruncatedDualTextBlock : Panel {
             return Size.Infinity;
         }
 
-        // Measure separator and second TextBlock with unlimited width to get their natural sizes
+        double totalWidth;
+
         separatorTextBlock.Measure(new Size(double.PositiveInfinity, availableSize.Height));
-        rightTextBlock.Measure(new Size(double.PositiveInfinity, availableSize.Height));
+        double fullSeparatorWidth = separatorTextBlock.DesiredSize.Width;
 
-        double separatorWidth = separatorTextBlock.DesiredSize.Width;
-        double rightTextWidth = rightTextBlock.DesiredSize.Width;
+        // If true, truncated the right text box. Otherwise, default to truncating the left text box.
+        if(RightTextTrimming != TextTrimming.None) {
+            leftTextBlock.Measure(new Size(double.PositiveInfinity, availableSize.Height));
+            double fullLeftWidth = leftTextBlock.DesiredSize.Width;
 
-        // Calculate the maximum width available for the first TextBlock
-        double maxLeftTextWidth = Math.Max(0, availableSize.Width - separatorWidth - rightTextWidth - (Spacing * 2));
+            double maxRightWidth = Math.Max(0, availableSize.Width - fullSeparatorWidth - fullLeftWidth - (Spacing * 2));
+            rightTextBlock.Measure(new Size(maxRightWidth, availableSize.Height));
+            double actualRightWidth = rightTextBlock.DesiredSize.Width;
 
-        // Measure the first TextBlock with the calculated maximum width
-        leftTextBlock.Measure(new Size(maxLeftTextWidth, availableSize.Height));
-        double leftTextWidth = leftTextBlock.DesiredSize.Width;
+            totalWidth = actualRightWidth + Spacing + fullSeparatorWidth + Spacing + fullLeftWidth;
+        } else {
+            rightTextBlock.Measure(new Size(double.PositiveInfinity, availableSize.Height));
+            double rightTextWidth = rightTextBlock.DesiredSize.Width;
 
-        // Calculate total size needed
-        double totalWidth = leftTextWidth + Spacing + separatorWidth + Spacing + rightTextWidth;
+            // Calculate the maximum width available for the first TextBlock
+            double maxLeftTextWidth = Math.Max(0, availableSize.Width - fullSeparatorWidth - rightTextWidth - (Spacing * 2));
+
+            // Measure the first TextBlock with the calculated maximum width
+            leftTextBlock.Measure(new Size(maxLeftTextWidth, availableSize.Height));
+            double leftTextWidth = leftTextBlock.DesiredSize.Width;
+
+            // Calculate total size needed
+            totalWidth = leftTextWidth + Spacing + fullSeparatorWidth + Spacing + rightTextWidth;
+        }
+
         double totalHeight = Math.Max(leftTextBlock.DesiredSize.Height,
-                                 Math.Max(separatorTextBlock.DesiredSize.Height, rightTextBlock.DesiredSize.Height));
+            Math.Max(separatorTextBlock.DesiredSize.Height, rightTextBlock.DesiredSize.Height));
 
         return new Size(Math.Min(totalWidth, availableSize.Width), totalHeight);
     }
@@ -322,36 +324,70 @@ public class TruncatedDualTextBlock : Panel {
             return finalSize;
         }
 
-        // Measure separator and second TextBlock to get their natural widths
-        separatorTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
-        rightTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
+        if(LeftTextTrimming == TextTrimming.None && RightTextTrimming != TextTrimming.None) {
+            // Measure separator and second TextBlock to get their natural widths
+            separatorTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
+            leftTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
 
-        double separatorWidth = separatorTextBlock.DesiredSize.Width;
-        double rightTextWidth = rightTextBlock.DesiredSize.Width;
+            double separatorWidth = separatorTextBlock.DesiredSize.Width;
+            double leftTextWidth = leftTextBlock.DesiredSize.Width;
 
-        // Calculate available width for first TextBlock
-        double maxLeftTextWidth = Math.Max(0, finalSize.Width - separatorWidth - rightTextWidth - (Spacing * 2));
+            // Calculate available width for first TextBlock
+            double maxRightTextWidth = Math.Max(0, finalSize.Width - separatorWidth - leftTextWidth - (Spacing * 2));
 
-        // Measure first TextBlock with the calculated constraint to get its actual desired width
-        leftTextBlock.Measure(new Size(maxLeftTextWidth, finalSize.Height));
-        double leftTextDesiredWidth = leftTextBlock.DesiredSize.Width;
+            // Measure first TextBlock with the calculated constraint to get its actual desired width
+            rightTextBlock.Measure(new Size(maxRightTextWidth, finalSize.Height));
+            double rightTextDesiredWidth = rightTextBlock.DesiredSize.Width;
 
-        // Use the minimum of desired width and max width for the first TextBlock
-        double leftTextActualWidth = Math.Min(leftTextDesiredWidth, maxLeftTextWidth);
+            // Use the minimum of desired width and max width for the first TextBlock
+            double rightTextActualWidth = Math.Min(rightTextDesiredWidth, maxRightTextWidth);
 
-        // Arrange first TextBlock
-        Rect leftTextRect = new Rect(0, 0, leftTextActualWidth, finalSize.Height);
-        leftTextBlock.Arrange(leftTextRect);
+            // Arrange first TextBlock
+            Rect leftTextRect = new Rect(0, 0, leftTextWidth, finalSize.Height);
+            leftTextBlock.Arrange(leftTextRect);
 
-        // Position separator TextBlock after the first TextBlock
-        double separatorX = leftTextActualWidth + Spacing;
-        Rect separatorRect = new Rect(separatorX, 0, separatorWidth, finalSize.Height);
-        separatorTextBlock.Arrange(separatorRect);
+            // Position separator TextBlock after the first TextBlock
+            double separatorX = leftTextWidth + Spacing;
+            Rect separatorRect = new Rect(separatorX, 0, separatorWidth, finalSize.Height);
+            separatorTextBlock.Arrange(separatorRect);
 
-        // Position second TextBlock after the separator
-        double rightTextX = separatorX + separatorWidth + Spacing;
-        Rect rightTextRect = new Rect(rightTextX, 0, rightTextWidth, finalSize.Height);
-        rightTextBlock.Arrange(rightTextRect);
+            // Position second TextBlock after the separator
+            double rightTextX = separatorX + separatorWidth + Spacing;
+            Rect rightTextRect = new Rect(rightTextX, 0, rightTextActualWidth, finalSize.Height);
+            rightTextBlock.Arrange(rightTextRect);
+        } else {
+            // Measure separator and second TextBlock to get their natural widths
+            separatorTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
+            rightTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
+
+            double separatorWidth = separatorTextBlock.DesiredSize.Width;
+            double rightTextWidth = rightTextBlock.DesiredSize.Width;
+
+            // Calculate available width for first TextBlock
+            double maxLeftTextWidth = Math.Max(0, finalSize.Width - separatorWidth - rightTextWidth - (Spacing * 2));
+
+            // Measure first TextBlock with the calculated constraint to get its actual desired width
+            leftTextBlock.Measure(new Size(maxLeftTextWidth, finalSize.Height));
+            double leftTextDesiredWidth = leftTextBlock.DesiredSize.Width;
+
+            // Use the minimum of desired width and max width for the first TextBlock
+            double leftTextActualWidth = Math.Min(leftTextDesiredWidth, maxLeftTextWidth);
+
+            // Arrange first TextBlock
+            Rect leftTextRect = new Rect(0, 0, leftTextActualWidth, finalSize.Height);
+            leftTextBlock.Arrange(leftTextRect);
+
+            // Position separator TextBlock after the first TextBlock
+            double separatorX = leftTextActualWidth + Spacing;
+            Rect separatorRect = new Rect(separatorX, 0, separatorWidth, finalSize.Height);
+            separatorTextBlock.Arrange(separatorRect);
+
+            // Position second TextBlock after the separator
+            double rightTextX = separatorX + separatorWidth + Spacing;
+            Rect rightTextRect = new Rect(rightTextX, 0, rightTextWidth, finalSize.Height);
+            rightTextBlock.Arrange(rightTextRect);
+        }
+
 
         return finalSize;
     }

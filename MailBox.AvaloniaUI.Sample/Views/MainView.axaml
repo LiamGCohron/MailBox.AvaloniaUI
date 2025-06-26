@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MailBox.AvaloniaUI.Sample.ViewModels"
 						 xmlns:mb="clr-namespace:MailBox.AvaloniaUI.Controls;assembly=MailBox.AvaloniaUI.Controls"
-						 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+						 mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
              x:Class="MailBox.AvaloniaUI.Sample.Views.MainView"
              x:DataType="vm:MainViewModel">
 	<Design.DataContext>
@@ -25,6 +25,16 @@
 		<Style Selector="WrapPanel Border">
 			<Setter Property="Margin" Value="2"/>
 		</Style>
+
+		<Style Selector="Slider">
+			<Setter Property="Width" Value="120"/>
+			<Setter Property="Minimum" Value="1"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+
+		<Style Selector="NumericUpDown">
+			<Setter Property="Minimum" Value="1"/>
+		</Style>
 	</UserControl.Styles>
 
 	<Grid RowDefinitions="*,Auto" ColumnDefinitions="*,4,*" Margin="4">
@@ -43,11 +53,12 @@
 		<WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="4">
 			<!-- Spacing -->
 			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
-				<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,Auto">
+				<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,Auto,Auto">
 					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Spacing" FontWeight="Bold" HorizontalAlignment="Center"/>
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="Spacing" VerticalAlignment="Center"/>
-					<Slider Grid.Row="1" Grid.Column="1" Value="{Binding Spacing}" Minimum="0" Maximum="72"/>
+					<NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Spacing}"/>
+					<Slider Grid.Row="1" Grid.Column="2" Value="{Binding Spacing}" Minimum="0"/>
 				</Grid>
 			</Border>
 
@@ -98,17 +109,20 @@
 
 			<!-- Font Size -->
 			<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Padding="8">
-				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,Auto">
 					<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="FontSize" FontWeight="Bold" HorizontalAlignment="Center"/>
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="Left FontSize" VerticalAlignment="Center"/>
-					<NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding LeftFontSize}" Minimum="1"/>
+					<NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding LeftFontSize}"/>
+					<Slider Grid.Row="1" Grid.Column="2" Value="{Binding LeftFontSize}"/>
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Separator FontSize" VerticalAlignment="Center"/>
-					<NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SeparatorFontSize}" Minimum="1"/>
+					<NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SeparatorFontSize}"/>
+					<Slider Grid.Row="2" Grid.Column="2" Value="{Binding SeparatorFontSize}"/>
 
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="Right FontSize" VerticalAlignment="Center"/>
-					<NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RightFontSize}" Minimum="1"/>
+					<NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RightFontSize}"/>
+					<Slider Grid.Row="3" Grid.Column="2" Value="{Binding RightFontSize}"/>
 				</Grid>
 			</Border>
 
