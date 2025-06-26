@@ -324,7 +324,7 @@ public class TruncatedDualTextBlock : Panel {
             return finalSize;
         }
 
-        if(LeftTextTrimming == TextTrimming.None && RightTextTrimming != TextTrimming.None) {
+        if(RightTextTrimming != TextTrimming.None) {
             // Measure separator and second TextBlock to get their natural widths
             separatorTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
             leftTextBlock.Measure(new Size(double.PositiveInfinity, finalSize.Height));
