@@ -33,7 +33,7 @@ public class TruncatedDualTextBlock : Panel {
     public static readonly StyledProperty<TextTrimming> LeftTextTrimmingProperty =
         AvaloniaProperty.Register<TruncatedDualTextBlock, TextTrimming>(nameof(LeftTextTrimming), TextTrimming.CharacterEllipsis);
     public static readonly StyledProperty<TextTrimming> RightTextTrimmingProperty =
-        AvaloniaProperty.Register<TruncatedDualTextBlock, TextTrimming>(nameof(RightTextTrimming), TextTrimming.CharacterEllipsis);
+        AvaloniaProperty.Register<TruncatedDualTextBlock, TextTrimming>(nameof(RightTextTrimming), TextTrimming.None);
     #endregion
 
     #region Foreground StyledProperties
